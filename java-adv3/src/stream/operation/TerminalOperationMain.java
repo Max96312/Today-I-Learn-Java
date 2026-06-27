@@ -81,5 +81,23 @@ public class TerminalOperationMain {
                 .findAny().get();
         System.out.println("5보다 큰 첫 번째 숫자: " + any);
         System.out.println();
+
+        System.out.println("11. anyMatch - 조건을 만족하는 요소 존재 여부");
+        boolean hasEven = numbers.stream()
+                .anyMatch(n -> n % 2 == 0);
+        System.out.println("짝수가 있나? " + hasEven);
+        System.out.println();
+
+        System.out.println("12. allMatch - 모든 요소가 조건을 만족하는지");
+        boolean allPositive = numbers.stream()
+                .allMatch(n -> n > 0);
+        System.out.println("모든 숫자가 양수인가? : " + allPositive);
+        System.out.println();
+
+
+        System.out.println("13. noneMatch - 조건을 만족하는 요소가 없는지");
+        boolean noNegative = numbers.stream()
+                .noneMatch(n -> n < 0);
+        System.out.println("음수가 없나? " + noNegative);
     }
 }
