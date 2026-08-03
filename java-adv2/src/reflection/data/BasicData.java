@@ -8,7 +8,7 @@ public class BasicData {
         System.out.println("BasicData.BasicData");
     }
 
-    public BasicData(String data) {
+    private BasicData(String data) {
         System.out.println("BasicData.BasicData: " + data);
     }
 
@@ -25,8 +25,8 @@ public class BasicData {
         System.out.println("BasicData.privateMethod");
     }
 
-    void defaultMetho() {
-        System.out.println("BasicData.defaultMetho");
+    void defaultMethod() {
+        System.out.println("BasicData.defaultMethod");
     }
 
     protected void protectedMethod() {
