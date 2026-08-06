@@ -15,6 +15,5 @@ public class HomeServlet implements HttpServlet {
         response.writeBody("<li><a href='/site2'>site2</a></li>");
         response.writeBody("<li><a href='/search?q=hello'>검색</a></li>");
         response.writeBody("</ul>");
-
     }
 }
