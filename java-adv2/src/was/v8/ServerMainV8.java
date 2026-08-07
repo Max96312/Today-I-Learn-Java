@@ -1,20 +1,23 @@
-package was.v7;
+package was.v8;
 
 import was.httpserver.HttpServer;
 import was.httpserver.ServletManager;
 import was.httpserver.servlet.DiscardServlet;
 import was.httpserver.servlet.annotation.AnnotationServletV1;
+import was.httpserver.servlet.annotation.AnnotationServletV2;
+import was.v7.SearchControllerV7;
+import was.v7.SiteControllerV7;
 
 import java.io.IOException;
 import java.util.List;
 
-public class ServerMainV7 {
+public class ServerMainV8 {
 
     private static final int PORT = 12345;
 
     public static void main(String[] args) throws IOException {
-        List<Object> controllers = List.of(new SiteControllerV7(), new SearchControllerV7());
-        AnnotationServletV1 annotationServlet = new AnnotationServletV1(controllers);
+        List<Object> controllers = List.of(new SiteControllerV8(), new SearchControllerV8());
+        AnnotationServletV2 annotationServlet = new AnnotationServletV2(controllers);
 
         ServletManager servletManager = new ServletManager();
         servletManager.setDefaultServlet(annotationServlet);
