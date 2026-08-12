@@ -1,5 +1,7 @@
 package was.httpserver;
 
+import util.MyLogger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -8,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.*;
+import static util.MyLogger.*;
 
 public class HttpRequest {
     private String method;
@@ -18,12 +21,12 @@ public class HttpRequest {
     public HttpRequest(BufferedReader reader) throws IOException {
         parseRequestLine(reader);
         parseHeaders(reader);
-        // 메시지 바디는 이후에 처리
-
+        parseBody(reader);
     }
 
     // GET /search?q=hello HTTP/1.1
     // HOST: localhost:12345
+
     private void parseRequestLine(BufferedReader reader) throws IOException {
         String requestLine = reader.readLine();
         if (requestLine == null) {
@@ -61,9 +64,30 @@ public class HttpRequest {
     // Cache-Control: max-age=0
     private void parseHeaders(BufferedReader reader) throws IOException {
         String line;
-        while ((line = reader.readLine()).isEmpty()) {
+        while (!(line = reader.readLine()).isEmpty()) {
             String[] headerParts = line.split(":");
             headers.put(headerParts[0].trim(), headerParts[1].trim());
+        }
+    }
+
+    private void parseBody(BufferedReader reader) throws IOException {
+        if (!headers.containsKey("Content-Length")) {
+            return;
+        }
+
+        int contentLength = Integer.parseInt(headers.get("Content-Length"));
+        char[] bodyChars = new char[contentLength];
+        int read = reader.read(bodyChars);
+        if (read != contentLength) {
+            throw new IOException("Failed to read entire body. Expected " + contentLength + " bytes, but read " + read);
+        }
+
+        String body = new String(bodyChars);
+        log("HTTP Message Body: " + body);
+
+        String contentType = headers.get("Content-Type");
+        if ("application/x-www-form-urlencoded".equals(contentType)) {
+            parseQueryParameters(body);
         }
     }
 
